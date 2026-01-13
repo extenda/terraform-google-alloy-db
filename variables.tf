@@ -54,7 +54,7 @@ variable "cluster_display_name" {
 variable "cluster_initial_user" {
   description = "Alloy DB Cluster Initial User Credentials"
   type = object({
-    user     = optional(string),
+    user     = optional(string)
     password = string
   })
   default = null

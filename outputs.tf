@@ -63,6 +63,7 @@ output "cluster_name" {
 output "cluster" {
   description = "Cluster created"
   value       = resource.google_alloydb_cluster.default
+  sensitive   = true
 }
 
 output "primary_instance" {
@@ -93,4 +94,10 @@ output "env_vars" {
     "ALLOYDB_INSTANCE_HOST" : google_alloydb_instance.primary.ip_address,
     "ALLOYDB_READ_REPLICAS" : jsonencode([for rd, details in google_alloydb_instance.read_pool : details.ip_address])
   }
+}
+
+output "generated_user_password" {
+  description = "The auto generated default user password if not input password was provided"
+  value       = var.cluster_initial_user != null ? var.cluster_initial_user.password : (length(random_password.user-password) > 0 ? random_password.user-password[0].result : null)
+  sensitive   = true
 }
